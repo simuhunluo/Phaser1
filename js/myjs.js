@@ -1,3 +1,3 @@
 function test() {
-    alert("测试啊");
+    alert("测试r啊");
 }
