@@ -16,51 +16,64 @@ var states = {
             // 加载游戏资源
             game.load.crossOrigin = 'anonymous'; // 设置跨域
             game.load.image('bg', 'img/pic1.jpg');
-
+            game.load.image('man','img/sss.png');
             game.load.audio('bgMusic', 'audio/audio1.mp3');
-            // 添加进度文字
-            var progressText = game.add.text(game.world.centerX, game.world.centerY, '0%', {
-                fontSize: '60px',
-                fill: '#ffffff'
+
+            //创建文字
+            var progressText=game.add.text(game.world.centerX,game.world.centerY,'0%',{
+                fontSize:'60px',
+                fill:'#ffffff'
             });
-            progressText.anchor.setTo(0.5, 0.5);
-            // 监听加载完一个文件的事件
-            game.load.onFileComplete.add(function(progress) {
-                progressText.text = progress + '%';
-            });
-            // 监听加载完毕事件
-            game.load.onLoadComplete.add(onLoad);
-            // 最小展示时间，示例为3秒
-            var deadLine = false;
-            setTimeout(function() {
-                deadLine = true;
-            },1500);
-            // 加载完毕回调方法
-            function onLoad() {
-                if (deadLine) {
-                    // 已到达最小展示时间，可以进入下一个场景
-                    game.state.start('created');
-                } else {
-                    // 还没有到最小展示时间，1秒后重试
-                    setTimeout(onLoad, 1000);
+
+            progressText.anchor.setTo(0.5,0.5);//设置锚点
+
+            //监听加载完一个文件的事件
+            game.load.onFileComplete.add(
+                function (progress) {
+                    progressText.text=progress+'%';
                 }
-            }
-        },
-            this.create = function() {
-                // game.state.start('created');
-            }
+            );
+            game.load.onLoadComplete.add(function () {
+                game.state.start('created');
+            });
+        }
     },
     // 开始场景
     created: function() {
         this.create = function() {
-            // TO-DO
+            //添加背景图片
             var bg = game.add.image(0, 0, 'bg');
             bg.width = game.world.width;
             bg.height = game.world.height;
-
+            //添加标题
+            var title=game.add.text(game.world.centerX,game.world.centerY*0.4,"我的小游戏",{
+                fontSize:'50px',
+                fontWeight:'bold',
+                fill:'#f2bb15'
+            });
+            title.anchor.setTo(0.5,0.5);
+            //添加提示
+            var remind=game.add.text(game.world.centerX,game.world.centerY,"点击开始",{
+                fontSize:'30px',
+                fill:'#f2bb15'
+            });
+            remind.anchor.setTo(0.5,0.5);
             var music=game.add.audio('bgMusic',1,true,true);
             music.play();
 
+            //添加主角
+            var man=game.add.sprite(game.world.centerX,game.world.centerY*1.3,'man');
+            var manImage=game.cache.getImage('man');
+            man.width=manImage.width * 0.3;
+            man.height = manImage.height * 0.3;
+            man.anchor.setTo(0.5,0);
+            //添加点击事件
+            game.input.onTap.add(function () {
+                alert("啊");
+            })/*
+            game.input.onTap.add(function () {
+                game.state.start('play');
+            });*/
 /*            setTimeout(function() {
                 game.state.start('play');
             }, 3000);*/
