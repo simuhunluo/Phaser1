@@ -7,9 +7,6 @@ var states={
 	play:function(){},
 	over:function(){}
 };
-/*Object.keys(states).map(function(key))
-{	game.state.add(key,states(key))
-};*/
 Object.keys(states).map(function (key) {
 	game.stage.add(key,states[key]);
 });
