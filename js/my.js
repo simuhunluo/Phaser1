@@ -82,6 +82,7 @@ var states = {
         var apples; // 苹果
         var score = 0; // 得分
         var title; // 分数
+        var cursors;//键盘控制
         this.create = function() {
             // TO-DO
             game.stage.backgroundColor = '#444';
@@ -120,10 +121,14 @@ var states = {
                     man.x=x;
                 }
             });
+
+            cursors=game.input.keyboard.createCursorKeys();
+
             apples=game.add.group();
             var appleTimer=game.time.create(true);
             appleTimer.loop(1000,function () {
-                var x=Math.random()*game.world.width;
+
+                var x=Math.random()*game.world.width*0.6;
                 var y=function () {
                     var m;
                     while ((m=Math.random()*game.world.height)<game.world.height*0.1){
@@ -190,6 +195,15 @@ var states = {
                 title.text = score;
                 // 清除苹果
                 apple.kill();
+            }
+            man.body.velocity.x=0;
+            if (cursors.left.isDown){
+                man.body.velocity.x=-500;
+                man.animations.play('left');
+            }
+            if (cursors.right.isDown){
+                man.body.velocity.x=500;
+                man.animations.play('right');
             }
         }
 
